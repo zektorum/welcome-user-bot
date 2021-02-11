@@ -10,5 +10,10 @@ longpoll = VkBotLongPoll(vk, GROUP_ID)
 if __name__ == "__main__":
     while True:
         print("bot is online")
-        for event in longpoll.listen():
-            pass
+        try:
+            for event in longpoll.listen():
+                if event.from_chat:
+                    print(event.object.text)
+        except AttributeError as e:
+            print("AttributeError:", e.args[0])
+            continue
