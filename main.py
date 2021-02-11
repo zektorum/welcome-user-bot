@@ -13,7 +13,8 @@ if __name__ == "__main__":
         try:
             for event in longpoll.listen():
                 if event.from_chat:
-                    print(event.object.text)
+                    if event.type == VkBotEventType.MESSAGE_NEW:
+                        print(event.message.text)
         except AttributeError as e:
-            print("AttributeError:", e.args[0])
+            print("Ошибка! Получено событие из сообщений сообщества. Ожидалось из беседы")
             continue
