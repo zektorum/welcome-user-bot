@@ -2,6 +2,8 @@ from time import sleep
 from vk import bot_longpoll as longpoll
 from vk import NEW_MESSAGE_EVENT
 
+from welcome import is_added, send_message_to_chat
+
 
 def main():
     while True:
@@ -10,7 +12,8 @@ def main():
             for event in longpoll.listen():
                 if event.from_chat:
                     if event.type == NEW_MESSAGE_EVENT:
-                        print(event.message.text)
+                        if is_added(event.raw):
+                            send_message_to_chat(event.chat_id, "Welcome, Murad!")
         except AttributeError:
             print("Ошибка! Получено событие из сообщений сообщества. Ожидалось из беседы")
             sleep(5)
