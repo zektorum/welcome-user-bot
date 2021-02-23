@@ -1,7 +1,7 @@
 from random import randint
 from requests import get
-from vk import vk_bot
 
+from vk import vk_bot
 from const import ACCESS_TOKEN
 
 

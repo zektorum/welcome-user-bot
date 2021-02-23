@@ -1,4 +1,5 @@
 from random import randint
+
 from vk import vk_bot
 
 

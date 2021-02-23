@@ -1,7 +1,7 @@
 from time import sleep
+
 from vk import bot_longpoll as longpoll
 from vk import NEW_MESSAGE_EVENT
-
 from welcome import is_added, get_user_name_by_id, send_message_to_chat
 
 
