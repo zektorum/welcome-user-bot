@@ -19,4 +19,10 @@ def is_added(raw):
         if raw["object"]["message"]["action"]["type"] in ["chat_invite_user", "chat_invite_user_by_link"]:
             return raw["object"]["message"]["action"]["member_id"]
     except KeyError:
-        return False
+        return None
+
+
+def get_user_name_by_id(user_id: int):
+    """ Получает инициалы пользователя по id"""
+    result = vk_bot.method("users.get", {"user_ids": user_id})[0]
+    return result["first_name"], result["last_name"]
