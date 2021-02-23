@@ -1,16 +1,25 @@
 from random import randint
-from vk import vk_bot, vk_service
+from requests import get
+from vk import vk_bot
+
+from const import ACCESS_TOKEN
 
 
-# FIXME: не возвращает ничего
 def get_list_of_repost_users(post_id: int):
     """ Получение списка пользователей, репостнувших запись """
     values = {
         "owner_id": -195382217,
         "post_id": post_id,
-        "count": 1000
+        "count": 1000,
+        "access_token": ACCESS_TOKEN,
+        "v": "5.130"
     }
-    return vk_service.method("wall.getReposts", values)
+    response = get("https://api.vk.com/method/wall.getReposts", params=values).json()
+    users = []
+    for user in response["response"]["items"]:
+        if user["from_id"] > 0:
+            users.append(user["from_id"])
+    return users
 
 
 # TODO: протестировать работоспособность функции
