@@ -14,19 +14,19 @@ def send_message(chat_id: int, message: str, attachment=None):
     vk_bot.method("messages.send", values)
 
 
-def get_user_id(raw: dict):
+def get_user_id(raw: dict) -> str:
     """ Возвращает id пользователя, если он был приглашён """
     try:
         if raw["object"]["message"]["action"]["type"] in ["chat_invite_user", "chat_invite_user_by_link"]:
             return raw["object"]["message"]["action"]["member_id"]
     except KeyError:
-        return None
+        return ""
 
 
-def get_user_name_by_id(user_id: int):
+def get_user_name_by_id(user_id: str) -> tuple[str, str]:
     """ Получает инициалы пользователя по id"""
     result = vk_bot.method("users.get", {"user_ids": user_id})[0]
-    return result["first_name"], result["last_name"]
+    return (result["first_name"], result["last_name"])
 
 
 def get_users_list(chat_id: int) -> list:
@@ -34,4 +34,4 @@ def get_users_list(chat_id: int) -> list:
     response = vk_bot.method(
         "messages.getConversationMembers", {"peer_id": 2000000000 + chat_id}
     )
-    return [i["member_id"] for i in response["items"]]
+    return [user["member_id"] for user in response["items"]]

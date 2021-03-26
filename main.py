@@ -13,7 +13,7 @@ def main():
                 if event.from_chat:
                     if event.type == NEW_MESSAGE_EVENT:
                         user_id = get_user_id(event.raw)
-                        if user_id is not None:
+                        if user_id:
                             first_name = get_user_name_by_id(user_id)[0]
                             send_message(event.chat_id, f"Welcome, [id{user_id}|{first_name}]!")
         except AttributeError:
