@@ -27,3 +27,11 @@ def get_user_name_by_id(user_id: int):
     """ Получает инициалы пользователя по id"""
     result = vk_bot.method("users.get", {"user_ids": user_id})[0]
     return result["first_name"], result["last_name"]
+
+
+def get_users_list(chat_id: int) -> list:
+    """ Возвращает список из id пользователей беседы """
+    response = vk_bot.method(
+        "messages.getConversationMembers", {"peer_id": 2000000000 + chat_id}
+    )
+    return [i["member_id"] for i in response["items"]]
