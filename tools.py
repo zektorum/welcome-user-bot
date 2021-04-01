@@ -1,6 +1,8 @@
-from random import randint
+from random import choice, randint
 
 from vk import vk_bot
+
+from const import CHAT_ID
 
 
 def send_message(chat_id: int, message: str, attachment=None):
@@ -29,9 +31,27 @@ def get_user_name_by_id(user_id: str) -> tuple[str, str]:
     return (result["first_name"], result["last_name"])
 
 
-def get_users_list(chat_id: int) -> list:
+def get_users_list(chat_id: int) -> list[str]:
     """ Возвращает список из id пользователей беседы """
     response = vk_bot.method(
         "messages.getConversationMembers", {"peer_id": 2000000000 + chat_id}
     )
     return [user["member_id"] for user in response["items"]]
+
+
+def generate_sending_time():
+    """ Возвращает строку в формате 'чч:мм' """
+    return "{0}:{1}".format(randint(12, 19), randint(10, 59))
+
+
+def get_random_user():
+    """ Возвращает id случайного пользователя беседы """
+    return choice([user_id for user_id in get_users_list(CHAT_ID) if user_id > 0])
+
+
+def send_hello_to_user(user_id: str) -> None:
+    """ Отправляет пользователю сообщение с одним из нескольких возможных вопросов """
+    messages = ['Как дела?', 'Что нового?', 'Как настроение?']
+    user_name = get_user_name_by_id(user_id)[0]
+    send_message(CHAT_ID, f"Привет, [{user_id}|{user_name}]!" + choice(messages))
+
