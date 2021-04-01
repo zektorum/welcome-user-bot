@@ -34,7 +34,7 @@ def get_user_name_by_id(user_id: str) -> tuple[str, str]:
 def get_users_list(chat_id: int) -> list[str]:
     """ Возвращает список из id пользователей беседы """
     response = vk_bot.method(
-        "messages.getConversationMembers", {"peer_id": 2000000000 + chat_id}
+        "messages.getConversationMembers", {"peer_id": 2000000000 + int(chat_id)}
     )
     return [user["member_id"] for user in response["items"]]
 
