@@ -1,9 +1,10 @@
-from time import sleep
 from datetime import datetime
+from time import sleep
+import sys
 
-from vk import bot_longpoll as longpoll
-from vk import NEW_MESSAGE_EVENT
 from tools import *
+from vk import NEW_MESSAGE_EVENT
+from vk import bot_longpoll as longpoll
 
 
 def event_loop(events: list):
@@ -43,4 +44,9 @@ def main():
 
 
 if __name__ == "__main__":
+    argc = len(sys.argv)
+    if argc != 4:
+        print(f"Ошибка! Ожидалось 3 аргумента, получено {argc - 1}")
+        sys.exit(1)
+
     main()

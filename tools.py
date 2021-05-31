@@ -1,8 +1,7 @@
 from random import choice, randint
+import sys
 
 from vk import vk_bot
-
-from const import CHAT_ID
 
 
 def send_message(chat_id: int, message: str, attachment=None):
@@ -46,12 +45,11 @@ def generate_sending_time():
 
 def get_random_user():
     """ Возвращает id случайного пользователя беседы """
-    return choice([user_id for user_id in get_users_list(CHAT_ID) if user_id > 0])
+    return choice([user_id for user_id in get_users_list(int(sys.argv[1])) if user_id > 0])
 
 
 def send_hello_to_user(user_id: str) -> None:
     """ Отправляет пользователю сообщение с одним из нескольких возможных вопросов """
     messages = ['Как дела?', 'Что нового?', 'Как настроение?']
     user_name = get_user_name_by_id(user_id)[0]
-    send_message(CHAT_ID, f"Привет, [{user_id}|{user_name}]!" + choice(messages))
-
+    send_message(int(sys.argv[1]), f"Привет, [{user_id}|{user_name}]!" + choice(messages))
