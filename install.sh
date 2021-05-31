@@ -1,1 +1,0 @@
-pip install vk-api requests chardet idna urllib3 six
