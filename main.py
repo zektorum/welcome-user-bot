@@ -6,16 +6,18 @@ from vk import NEW_MESSAGE_EVENT
 from tools import *
 
 
-def event_loop():
+def event_loop(events: list):
     """ Цикл обработки событий. Прилашённым пользователям отправляется приветствие """
-    for event in longpoll.check():
+    for event in events:
         try:
             if event.from_chat:
                 if event.type == NEW_MESSAGE_EVENT:
                     user_id = get_user_id(event.raw)
                     if user_id:
                         first_name = get_user_name_by_id(user_id)[0]
-                        send_message(event.chat_id, f"Welcome, [id{user_id}|{first_name}]!")
+                        message = f"Welcome, [id{user_id}|{first_name}]!"
+                        send_message(event.chat_id, message)
+                        print(f"Пользователю {user_id} отправлено сообщение: {message}")
         except AttributeError:
             print("Ошибка! Получено событие из сообщений сообщества. Ожидалось из беседы")
             sleep(5)
@@ -25,10 +27,12 @@ def event_loop():
 def main():
     sending_time = generate_sending_time()
     user_id = get_random_user()
+    events = longpoll.check()
     is_generated = True
     while True:
-        if longpoll.check():  # Если есть события
-            event_loop()
+        if events:  # Если есть события
+            event_loop(events)
+            events = longpoll.check()
         elif is_generated and sending_time == datetime.now().strftime("%H:%M"):
             send_hello_to_user(user_id)
             is_generated = False
