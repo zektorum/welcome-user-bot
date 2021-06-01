@@ -1,0 +1,5 @@
+CHAT_ID=
+GROUP_ID=
+TOKEN=
+
+python main.py $CHAT_ID $GROUP_ID $TOKEN
