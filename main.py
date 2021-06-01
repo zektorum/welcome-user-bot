@@ -28,6 +28,8 @@ def event_loop(events: list):
 def main():
     sending_time = generate_sending_time()
     user_id = get_random_user()
+    print(f"Время отправки сгенерировано: {sending_time}")
+    print(f"Получатель: {user_id}")
     events = longpoll.check()
     is_generated = True
     while True:
@@ -40,6 +42,8 @@ def main():
         elif not is_generated:
             user_id = get_random_user()
             sending_time = generate_sending_time()
+            print(f"Время отправки сгенерировано: {sending_time}")
+            print(f"Получатель: {user_id}")
             is_generated = True
 
 
@@ -49,4 +53,5 @@ if __name__ == "__main__":
         print(f"Ошибка! Ожидалось 3 аргумента, получено {argc - 1}")
         sys.exit(1)
 
+    print("Запуск бота...")
     main()
